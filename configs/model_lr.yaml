@@ -1,0 +1,26 @@
+model:
+  name: logistic_regression_baseline
+  family: linear_probabilistic_classifier
+  task_contexts:
+    - ctr
+    - fraud_policy
+    - loan_policy
+feature_space:
+  sparse_encoding: feature_hashing
+  hash_dimension: 1048576
+  dense_features_enabled: true
+training:
+  loss: binary_cross_entropy
+  optimizer: adagrad
+  regularization:
+    l1: 0.000001
+    l2: 0.0001
+  max_epochs: 10
+  early_stopping_metric: validation_log_loss
+  class_weighting:
+    enabled: true
+  oversampling:
+    enabled: false
+interpretability:
+  coefficient_export_enabled: true
+  coefficient_stability_tracking: true

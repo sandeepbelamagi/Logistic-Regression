@@ -1,0 +1,21 @@
+project:
+  name: probabilistic-decisioning-platform
+  phase: 1
+  primary_dataset: criteo_ctr
+environments:
+  dev:
+    prediction_latency_slo_ms: 20
+    sample_mode: true
+    log_level: debug
+  staging:
+    prediction_latency_slo_ms: 12
+    sample_mode: false
+    log_level: info
+  prod:
+    prediction_latency_slo_ms: 10
+    sample_mode: false
+    log_level: warn
+governance:
+  audit_logging_required: true
+  pii_policy: pseudonymous_ids_only
+  fairness_review_required: true

@@ -1,0 +1,23 @@
+dataset:
+  primary_source: criteo_ctr
+  train_split: 0.8
+  validation_split: 0.1
+  test_split: 0.1
+  split_strategy: time_aware_when_possible
+features:
+  point_in_time_correctness_required: true
+  offline_online_parity_required: true
+experiments:
+  run_cross_entropy_vs_mse: true
+  run_class_weighting_ablation: true
+  run_oversampling_ablation: true
+  run_multicollinearity_stability_study: true
+labels:
+  delayed_label_simulation:
+    enabled: true
+    default_window_days: 30
+registry:
+  register_model_on_pass:
+    - validation_log_loss
+    - validation_ece
+    - latency_budget_estimate

@@ -1,0 +1,15 @@
+calibration:
+  enabled: true
+  candidate_methods:
+    - platt_scaling
+    - isotonic_regression
+  selection_metric: validation_ece
+  refresh_strategy:
+    mode: rolling_window
+    window_days: 14
+  drift_triggers:
+    ece_threshold: 0.03
+    psi_threshold: 0.2
+  delayed_label_handling:
+    attribution_window_hours: 24
+    maturity_lag_days: 2

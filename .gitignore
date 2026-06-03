@@ -1,0 +1,4 @@
+.tmp_tests/
+artifacts/
+__pycache__/
+.pytest_cache/

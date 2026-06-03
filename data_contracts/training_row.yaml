@@ -1,0 +1,66 @@
+version: 1
+entity: training_row
+description: Point-in-time correct training example for Logistic Regression and calibration.
+owners:
+  - ml-platform
+primary_key:
+  - training_row_id
+partition_keys:
+  - snapshot_date
+fields:
+  - name: training_row_id
+    type: string
+    required: true
+    description: Unique row identifier for reproducibility.
+  - name: snapshot_date
+    type: date
+    required: true
+    description: Date the training snapshot was materialized.
+  - name: event_id
+    type: string
+    required: true
+    description: Source impression event identifier.
+  - name: event_ts
+    type: timestamp
+    required: true
+    description: Original event timestamp.
+  - name: label_ts
+    type: timestamp
+    required: false
+    description: Label arrival time when available.
+  - name: label_available
+    type: boolean
+    required: true
+    description: Indicates whether the row had a mature label at snapshot time.
+  - name: label
+    type: integer
+    required: true
+    description: Binary training label for the current task.
+  - name: sample_weight
+    type: float
+    required: true
+    description: Training weight after class weighting or policy weighting.
+  - name: dense_features
+    type: array<float>
+    required: false
+    description: Ordered dense feature vector.
+  - name: sparse_feature_ids
+    type: array<int>
+    required: true
+    description: Active hashed or dictionary-encoded sparse feature identifiers.
+  - name: sparse_feature_values
+    type: array<float>
+    required: true
+    description: Active sparse feature values aligned with sparse_feature_ids.
+  - name: feature_set_version
+    type: string
+    required: true
+    description: Offline feature definition version.
+  - name: task_context
+    type: string
+    required: true
+    description: One of ctr, fraud_policy, or loan_policy.
+quality_rules:
+  - sparse_feature_ids and sparse_feature_values must have the same length
+  - sample_weight must be greater than 0
+  - feature_set_version must be present

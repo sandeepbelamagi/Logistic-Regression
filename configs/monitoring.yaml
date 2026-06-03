@@ -1,0 +1,29 @@
+monitoring:
+  model_metrics:
+    - roc_auc
+    - pr_auc
+    - log_loss
+    - ece
+  data_metrics:
+    - feature_null_rate
+    - feature_freshness_lag
+    - psi
+    - label_delay_distribution
+  system_metrics:
+    - prediction_p95_latency_ms
+    - prediction_error_rate
+    - availability
+  business_metrics:
+    - revenue_proxy
+    - fraud_capture_rate
+    - false_positive_cost
+    - risk_adjusted_profit
+  governance_metrics:
+    - subgroup_calibration_gap
+    - approval_rate_gap
+    - audit_log_coverage
+alerts:
+  ece_critical: 0.03
+  psi_critical: 0.2
+  prediction_p95_latency_ms_critical: 10
+  manual_review_utilization_critical: 0.85

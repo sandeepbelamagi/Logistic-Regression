@@ -1,0 +1,24 @@
+policies:
+  ctr:
+    action_mode: rank
+    score_formula: bid_times_calibrated_probability
+  fraud_policy:
+    manual_review_threshold: 0.15
+    auto_block_threshold: 0.65
+    score_semantics: predicted_fraud_probability
+    actions:
+      below_manual_review: approve
+      between_review_and_block: review
+      above_auto_block: block
+  loan_policy:
+    manual_review_threshold: 0.12
+    decline_threshold: 0.18
+    score_semantics: predicted_default_probability
+    actions:
+      below_manual_review: approve
+      between_review_and_decline: review
+      above_decline: decline
+policy_controls:
+  threshold_tuning_enabled: true
+  cost_matrix_review_required: true
+  analyst_capacity_constraint_enabled: true

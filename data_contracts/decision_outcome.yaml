@@ -1,0 +1,62 @@
+version: 1
+entity: decision_outcome
+description: Policy action and realized downstream outcome for threshold analysis and governance.
+owners:
+  - ml-platform
+  - risk
+primary_key:
+  - decision_id
+partition_keys:
+  - decision_date
+fields:
+  - name: decision_id
+    type: string
+    required: true
+    description: Unique decision event identifier.
+  - name: decision_date
+    type: date
+    required: true
+    description: Partition date derived from decision_ts.
+  - name: decision_ts
+    type: timestamp
+    required: true
+    description: Time the action was taken.
+  - name: prediction_id
+    type: string
+    required: true
+    description: Reference to the prediction that drove the action.
+  - name: task_context
+    type: string
+    required: true
+    description: One of ctr, fraud_policy, or loan_policy.
+  - name: action
+    type: string
+    required: true
+    description: Policy action such as approve, review, block, decline, or rank.
+  - name: action_reason
+    type: string
+    required: false
+    description: Human-readable policy explanation category.
+  - name: threshold_value
+    type: float
+    required: false
+    description: Threshold that triggered the selected action.
+  - name: manual_review_required
+    type: boolean
+    required: true
+    description: Whether the record entered a human review queue.
+  - name: realized_label
+    type: integer
+    required: false
+    description: Downstream realized binary outcome when mature.
+  - name: realized_value
+    type: float
+    required: false
+    description: Realized economic value after outcome maturity.
+  - name: outcome_delay_days
+    type: integer
+    required: false
+    description: Delay between decision time and mature downstream outcome.
+quality_rules:
+  - action must be one of approve, review, block, decline, rank
+  - manual_review_required must be present

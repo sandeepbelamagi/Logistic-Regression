@@ -1,0 +1,17 @@
+serving:
+  prediction_api:
+    p95_latency_budget_ms: 10
+    timeout_ms: 30
+    max_batch_size: 1
+  feature_api:
+    freshness_sla_seconds: 300
+    missing_feature_policy: fallback_and_log
+  decision_api:
+    enabled: true
+    policy_decoupled_from_scoring: true
+logging:
+  prediction_logging_enabled: true
+  request_trace_required: true
+deployment:
+  rollout_strategy: canary_then_champion_challenger
+  rollback_supported: true

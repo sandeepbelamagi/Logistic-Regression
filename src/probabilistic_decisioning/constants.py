@@ -1,0 +1,8 @@
+"""Shared constants for the Criteo CTR offline pipeline."""
+
+DENSE_FEATURE_NAMES = [f"I{index}" for index in range(1, 14)]
+CATEGORICAL_FEATURE_NAMES = [f"C{index}" for index in range(1, 27)]
+CRITEO_EXPECTED_FIELD_COUNT = 1 + len(DENSE_FEATURE_NAMES) + len(CATEGORICAL_FEATURE_NAMES)
+DEFAULT_FEATURE_SET_VERSION = "criteo_ctr_v1"
+DEFAULT_HASH_DIMENSION = 1_048_576
+DEFAULT_START_TIMESTAMP = "2026-01-01T00:00:00+00:00"
