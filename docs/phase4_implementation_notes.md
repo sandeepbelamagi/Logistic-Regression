@@ -136,6 +136,15 @@ python pipelines/calibrate_and_route.py --data-dir artifacts/bank_marketing_smok
 The command expects a Phase 2 artifact directory for `--data-dir` and a Phase 3 `model.json` path for `--model-path`.
 It can route all three policy contexts in one run.
 
+If you are using `samples/bank_full_smoke.csv`, the default hash split can leave validation empty because the file has only three rows.
+For a smoke-safe run, rebuild Phase 2 with contiguous split ratios that guarantee one row in validation and test:
+
+```bash
+python pipelines/build_training_dataset.py --input samples/bank_full_smoke.csv --output-dir artifacts/bank_marketing_smoke_cv --split-strategy contiguous --train-ratio 0.34 --validation-ratio 0.33 --test-ratio 0.33
+python pipelines/train_logistic_regression.py --data-dir artifacts/bank_marketing_smoke_cv --output-dir artifacts/bank_marketing_lr_cv
+python pipelines/calibrate_and_route.py --data-dir artifacts/bank_marketing_smoke_cv --model-path artifacts/bank_marketing_lr_cv/model.json --output-dir artifacts/bank_marketing_phase4_cv
+```
+
 ## Validation
 
 Phase 4 is healthy when:

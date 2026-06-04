@@ -59,7 +59,10 @@ def main() -> int:
     model = load_model_artifact(model_path)
 
     if not splits["validation"]:
-        raise ValueError("Phase 4 calibration requires a non-empty validation split.")
+        raise ValueError(
+            "Phase 4 calibration requires a non-empty validation split. "
+            "Rebuild Phase 2 with more rows or use a split configuration that produces validation data."
+        )
 
     output_dir = Path(args.output_dir)
     calibration_dir = output_dir / "calibration"
