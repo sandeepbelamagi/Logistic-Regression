@@ -6,4 +6,6 @@ __all__ = [
     "bank_marketing",
     "dataset_builder",
     "features",
+    "metrics",
+    "logistic_regression",
 ]

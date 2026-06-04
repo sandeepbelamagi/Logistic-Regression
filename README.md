@@ -48,6 +48,12 @@ Phase 2 adds offline data ingestion and feature engineering for the Bank Marketi
 python pipelines/build_training_dataset.py --input samples/bank_full_smoke.csv --output-dir artifacts/bank_marketing_smoke
 ```
 
+### Train Command
+
+```bash
+python pipelines/train_logistic_regression.py --data-dir artifacts/bank_marketing_smoke --output-dir artifacts/bank_marketing_lr
+```
+
 ## Planned Repository Layout
 
 - `docs/` system design and requirements

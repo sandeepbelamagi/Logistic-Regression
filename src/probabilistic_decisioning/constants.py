@@ -37,6 +37,15 @@ BANK_MARKETING_CATEGORICAL_FEATURE_NAMES = [
     "month",
     "poutcome",
 ]
+BANK_MARKETING_DENSE_FEATURE_NAMES = [
+    "age",
+    "balance",
+    "day",
+    "campaign",
+    "pdays",
+    "previous",
+    "prior_contact_flag",
+]
 BANK_MARKETING_EXPECTED_FIELD_COUNT = len(BANK_MARKETING_INPUT_FIELDS) + 1
 BANK_MARKETING_LEAKAGE_FEATURE_NAME = "duration"
 DEFAULT_DATASET_NAME = "bank_marketing"
