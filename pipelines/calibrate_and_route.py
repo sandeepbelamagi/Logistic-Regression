@@ -52,8 +52,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    splits = load_training_splits(Path(args.data_dir))
-    model = load_model_artifact(Path(args.model_path))
+    data_dir = Path(args.data_dir)
+    model_path = Path(args.model_path)
+    _validate_phase4_inputs(data_dir, model_path)
+    splits = load_training_splits(data_dir)
+    model = load_model_artifact(model_path)
 
     if not splits["validation"]:
         raise ValueError("Phase 4 calibration requires a non-empty validation split.")
@@ -136,6 +139,27 @@ def main() -> int:
         )
     )
     return 0
+
+
+def _validate_phase4_inputs(data_dir: Path, model_path: Path) -> None:
+    training_dir = data_dir / "training"
+    required_split_paths = [
+        training_dir / "train.jsonl",
+        training_dir / "validation.jsonl",
+        training_dir / "test.jsonl",
+    ]
+    missing_paths = [path for path in required_split_paths if not path.exists()]
+    if missing_paths:
+        missing_display = ", ".join(str(path) for path in missing_paths)
+        raise FileNotFoundError(
+            "Phase 4 --data-dir must point to the Phase 2 artifact directory "
+            f"containing training splits. Missing: {missing_display}"
+        )
+    if not model_path.exists():
+        raise FileNotFoundError(
+            "Phase 4 --model-path must point to the Phase 3 model.json artifact. "
+            f"Missing: {model_path}"
+        )
 
 
 if __name__ == "__main__":

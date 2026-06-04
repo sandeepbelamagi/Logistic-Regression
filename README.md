@@ -70,7 +70,7 @@ Phase 4 adds calibration and decision routing on top of the trained model:
 ### Calibrate and Route
 
 ```bash
-python pipelines/calibrate_and_route.py --data-dir artifacts/bank_marketing_lr --model-path artifacts/bank_marketing_lr/model.json --output-dir artifacts/bank_marketing_phase4
+python pipelines/calibrate_and_route.py --data-dir artifacts/bank_marketing_smoke --model-path artifacts/bank_marketing_lr/model.json --output-dir artifacts/bank_marketing_phase4
 ```
 
 ## Planned Repository Layout

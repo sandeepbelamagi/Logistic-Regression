@@ -130,10 +130,10 @@ This is the operational evidence that connects model scores to business behavior
 ### Calibrate and Route
 
 ```bash
-python pipelines/calibrate_and_route.py --data-dir artifacts/bank_marketing_lr --model-path artifacts/bank_marketing_lr/model.json --output-dir artifacts/bank_marketing_phase4
+python pipelines/calibrate_and_route.py --data-dir artifacts/bank_marketing_smoke --model-path artifacts/bank_marketing_lr/model.json --output-dir artifacts/bank_marketing_phase4
 ```
 
-The command expects a Phase 3 model and Phase 2 splits.
+The command expects a Phase 2 artifact directory for `--data-dir` and a Phase 3 `model.json` path for `--model-path`.
 It can route all three policy contexts in one run.
 
 ## Validation
@@ -155,4 +155,3 @@ It gives the project the ability to explain:
 - why calibration is different from ranking
 - how thresholds change behavior
 - why one probability can drive multiple policy contexts
-
