@@ -31,6 +31,7 @@ Phase 1 scaffolds a FAANG-level project around Logistic Regression as a calibrat
 - `docs/phase1_implementation_notes.md`
 - `docs/phase2_implementation_notes.md`
 - `docs/phase3_implementation_notes.md`
+- `docs/phase4_implementation_notes.md`
 - `data_contracts/`
 - `configs/`
 
@@ -55,6 +56,21 @@ python pipelines/build_training_dataset.py --input samples/bank_full_smoke.csv -
 
 ```bash
 python pipelines/train_logistic_regression.py --data-dir artifacts/bank_marketing_smoke --output-dir artifacts/bank_marketing_lr
+```
+
+## Phase 4 Implementation
+
+Phase 4 adds calibration and decision routing on top of the trained model:
+
+- Platt scaling and isotonic regression calibration
+- validation-driven calibrator selection
+- bank marketing, fraud, and loan policy routing
+- policy summaries and decision outcome exports
+
+### Calibrate and Route
+
+```bash
+python pipelines/calibrate_and_route.py --data-dir artifacts/bank_marketing_lr --model-path artifacts/bank_marketing_lr/model.json --output-dir artifacts/bank_marketing_phase4
 ```
 
 ## Planned Repository Layout

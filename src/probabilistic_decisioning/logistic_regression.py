@@ -24,6 +24,10 @@ class TrainingExample:
     """Model-ready example loaded from Phase 2 JSONL artifacts."""
 
     training_row_id: str
+    event_id: str
+    snapshot_date: str
+    event_ts: str
+    label_ts: str
     label: int
     sample_weight: float
     dense_features: tuple[float, ...]
@@ -205,6 +209,10 @@ def load_training_examples(path: Path) -> list[TrainingExample]:
             examples.append(
                 TrainingExample(
                     training_row_id=str(payload["training_row_id"]),
+                    event_id=str(payload["event_id"]),
+                    snapshot_date=str(payload["snapshot_date"]),
+                    event_ts=str(payload["event_ts"]),
+                    label_ts=str(payload["label_ts"]),
                     label=int(payload["label"]),
                     sample_weight=float(payload.get("sample_weight", 1.0)),
                     dense_features=tuple(float(value) for value in payload.get("dense_features", [])),

@@ -8,4 +8,6 @@ __all__ = [
     "features",
     "metrics",
     "logistic_regression",
+    "calibration",
+    "decision_policy",
 ]
