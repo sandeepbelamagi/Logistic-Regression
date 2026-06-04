@@ -19,15 +19,15 @@ The interview notes require a single project that can explain:
 - why cross-entropy is used instead of MSE
 - why accuracy fails under class imbalance
 - how thresholding changes business outcomes
-- why calibration matters in auction and risk systems
+- why calibration matters in campaign and risk systems
 - how feedback loops and selection bias break naive deployment
 - why Logistic Regression still matters at internet scale
 
-A CTR platform is the strongest backbone because it naturally covers:
+A bank marketing propensity platform is the strongest backbone because it naturally covers:
 
 - sparse categorical features
 - calibrated probabilities
-- ranking and auction economics
+- campaign prioritization and contact economics
 - online learning and drift
 - strict latency requirements
 
@@ -37,14 +37,14 @@ Fraud and loan workflows are implemented as decision-policy extensions on top of
 
 ### Primary
 
-- **Criteo CTR dataset**
+- **UCI Bank Marketing `bank-full.csv`**
 
 ### Reason
 
-- large, sparse, high-cardinality feature space
+- smaller, production-realistic tabular feature space
 - strong fit for Logistic Regression and feature hashing
-- realistic calibration and ranking problems
-- close to internet-scale ad systems where Logistic Regression remains dominant
+- realistic calibration, thresholding, and campaign ranking problems
+- easy to run locally without large-scale infrastructure
 
 ### Secondary Evaluation Modes
 
@@ -71,7 +71,7 @@ Deliver a platform that can answer both modeling and systems questions:
 
 ### Business
 
-- CTR use case supports expected-value ranking
+- bank marketing use case supports expected-contact ranking
 - fraud policy supports cost-sensitive routing
 - loan policy supports long-horizon risk controls
 

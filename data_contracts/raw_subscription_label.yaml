@@ -1,6 +1,6 @@
 version: 1
-entity: raw_click_label
-description: Outcome event linked to a prior impression with explicit label delay tracking.
+entity: raw_subscription_label
+description: Outcome event linked to a prior contact with explicit label delay tracking.
 owners:
   - ml-platform
   - experimentation
@@ -16,7 +16,7 @@ fields:
   - name: parent_event_id
     type: string
     required: true
-    description: Impression event_id this label belongs to.
+    description: Contact event_id this label belongs to.
   - name: label_ts
     type: timestamp
     required: true
@@ -25,10 +25,10 @@ fields:
     type: date
     required: true
     description: Partition date derived from label_ts.
-  - name: clicked
+  - name: subscribed
     type: integer
     required: true
-    description: Binary click outcome encoded as 0 or 1.
+    description: Binary subscription outcome encoded as 0 or 1.
   - name: attribution_window_hours
     type: integer
     required: true
@@ -37,11 +37,11 @@ fields:
     type: integer
     required: true
     description: Difference between label_ts and the original event timestamp.
-  - name: source
+  - name: source_name
     type: string
     required: true
-    description: Upstream source that emitted the label.
+    description: Producer or file name that emitted the label.
 quality_rules:
-  - parent_event_id must reference an existing raw_impression_event.event_id
-  - clicked must be 0 or 1
+  - parent_event_id must reference an existing raw_contact_event.event_id
+  - subscribed must be 0 or 1
   - label_delay_seconds must be greater than or equal to 0

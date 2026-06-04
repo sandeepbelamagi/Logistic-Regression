@@ -1,4 +1,4 @@
-"""Offline artifact builder for the Phase 2 Criteo pipeline."""
+"""Offline artifact builder for the Phase 2 Bank Marketing pipeline."""
 
 from __future__ import annotations
 
@@ -15,23 +15,26 @@ from probabilistic_decisioning.constants import (
 from probabilistic_decisioning.contracts import (
     ContractContext,
     build_event_timestamp,
-    build_raw_click_label,
-    build_raw_impression_event,
+    build_raw_contact_event,
+    build_subscription_label,
     build_training_row,
 )
-from probabilistic_decisioning.criteo import count_criteo_rows, iter_criteo_records
+from probabilistic_decisioning.bank_marketing import (
+    count_bank_marketing_rows,
+    iter_bank_marketing_records,
+)
 from probabilistic_decisioning.features import FeatureConfig
 
 
 @dataclass(frozen=True)
 class DatasetBuilderConfig:
-    """Configuration for building raw and training artifacts from Criteo."""
+    """Configuration for building raw and training artifacts from Bank Marketing."""
 
     input_path: Path
     output_dir: Path
     hash_dimension: int = DEFAULT_HASH_DIMENSION
     feature_set_version: str = DEFAULT_FEATURE_SET_VERSION
-    task_context: str = "ctr"
+    task_context: str = "bank_marketing"
     split_strategy: str = "hash"
     train_ratio: float = 0.8
     validation_ratio: float = 0.1
@@ -40,7 +43,7 @@ class DatasetBuilderConfig:
     start_timestamp: str = DEFAULT_START_TIMESTAMP
     seconds_per_row: int = 1
     max_rows: int | None = None
-    impression_source: str = "criteo_train_txt"
+    source_name: str = "bank_full_csv"
     attribution_window_hours: int = 24
 
     def validate(self) -> None:
@@ -58,7 +61,7 @@ class DatasetBuilderConfig:
 
 
 def build_dataset(config: DatasetBuilderConfig) -> Path:
-    """Materialize raw and training artifacts from a local Criteo file."""
+    """Materialize raw and training artifacts from a local Bank Marketing file."""
 
     config.validate()
     total_rows = _resolve_total_rows(config)
@@ -66,7 +69,7 @@ def build_dataset(config: DatasetBuilderConfig) -> Path:
     contract_context = ContractContext(
         feature_set_version=config.feature_set_version,
         task_context=config.task_context,
-        impression_source=config.impression_source,
+        source_name=config.source_name,
         attribution_window_hours=config.attribution_window_hours,
         label_delay_seconds=config.label_delay_seconds,
     )
@@ -86,8 +89,8 @@ def build_dataset(config: DatasetBuilderConfig) -> Path:
     overall_rows = 0
     overall_positives = 0
 
-    raw_event_path = raw_dir / "raw_impression_events.jsonl"
-    raw_label_path = raw_dir / "raw_click_labels.jsonl"
+    raw_event_path = raw_dir / "raw_contact_events.jsonl"
+    raw_label_path = raw_dir / "raw_subscription_labels.jsonl"
     train_path = training_dir / "train.jsonl"
     validation_path = training_dir / "validation.jsonl"
     test_path = training_dir / "test.jsonl"
@@ -105,7 +108,7 @@ def build_dataset(config: DatasetBuilderConfig) -> Path:
             "test": test_handle,
         }
 
-        for processed_row_count, record in enumerate(iter_criteo_records(config.input_path)):
+        for processed_row_count, record in enumerate(iter_bank_marketing_records(config.input_path)):
             if config.max_rows is not None and processed_row_count >= config.max_rows:
                 break
 
@@ -123,14 +126,14 @@ def build_dataset(config: DatasetBuilderConfig) -> Path:
                 config=config,
             )
 
-            raw_event = build_raw_impression_event(
+            raw_event = build_raw_contact_event(
                 record=record,
                 event_id=event_id,
                 request_id=request_id,
                 event_timestamp=event_timestamp,
                 context=contract_context,
             )
-            raw_label = build_raw_click_label(
+            raw_label = build_subscription_label(
                 record=record,
                 event_id=event_id,
                 event_timestamp=event_timestamp,
@@ -172,7 +175,7 @@ def build_dataset(config: DatasetBuilderConfig) -> Path:
 
 def _resolve_total_rows(config: DatasetBuilderConfig) -> int | None:
     if config.split_strategy == "contiguous":
-        total_rows = count_criteo_rows(config.input_path)
+        total_rows = count_bank_marketing_rows(config.input_path)
         if config.max_rows is not None:
             return min(total_rows, config.max_rows)
         return total_rows
@@ -225,6 +228,7 @@ def _build_summary(
     return {
         "source_path": str(config.input_path),
         "output_dir": str(config.output_dir),
+        "source_name": config.source_name,
         "task_context": config.task_context,
         "feature_set_version": config.feature_set_version,
         "hash_dimension": config.hash_dimension,

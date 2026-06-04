@@ -1,6 +1,6 @@
 version: 1
 entity: training_row
-description: Point-in-time correct training example for Logistic Regression and calibration.
+description: Point-in-time correct training example for Bank Marketing Logistic Regression and calibration.
 owners:
   - ml-platform
 primary_key:
@@ -19,7 +19,7 @@ fields:
   - name: event_id
     type: string
     required: true
-    description: Source impression event identifier.
+    description: Source contact event identifier.
   - name: event_ts
     type: timestamp
     required: true
@@ -59,7 +59,7 @@ fields:
   - name: task_context
     type: string
     required: true
-    description: One of ctr, fraud_policy, or loan_policy.
+    description: One of bank_marketing, fraud_policy, or loan_policy.
 quality_rules:
   - sparse_feature_ids and sparse_feature_values must have the same length
   - sample_weight must be greater than 0

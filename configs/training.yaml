@@ -1,9 +1,9 @@
 dataset:
-  primary_source: criteo_ctr
+  primary_source: bank_marketing
   train_split: 0.8
   validation_split: 0.1
   test_split: 0.1
-  split_strategy: time_aware_when_possible
+  split_strategy: hash
 features:
   point_in_time_correctness_required: true
   offline_online_parity_required: true

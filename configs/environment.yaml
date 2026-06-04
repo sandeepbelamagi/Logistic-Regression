@@ -1,7 +1,7 @@
 project:
   name: probabilistic-decisioning-platform
   phase: 1
-  primary_dataset: criteo_ctr
+  primary_dataset: bank_marketing
 environments:
   dev:
     prediction_latency_slo_ms: 20

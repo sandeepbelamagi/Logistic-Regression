@@ -2,7 +2,7 @@ model:
   name: logistic_regression_baseline
   family: linear_probabilistic_classifier
   task_contexts:
-    - ctr
+    - bank_marketing
     - fraud_policy
     - loan_policy
 feature_space:

@@ -1,0 +1,28 @@
+{
+  "feature_set_version": "bank_marketing_v1",
+  "dataset": "bank_marketing",
+  "mode": "pre_contact_propensity",
+  "dense_features": [
+    {"name": "age", "transform": "log1p_non_negative"},
+    {"name": "balance", "transform": "signed_log1p"},
+    {"name": "day", "transform": "log1p_non_negative"},
+    {"name": "campaign", "transform": "log1p_non_negative"},
+    {"name": "pdays", "transform": "log1p_non_negative_with_contact_flag"},
+    {"name": "previous", "transform": "log1p_non_negative"},
+    {"name": "prior_contact_flag", "transform": "binary_indicator"}
+  ],
+  "categorical_features": [
+    {"name": "job", "encoding": "feature_hashing"},
+    {"name": "marital", "encoding": "feature_hashing"},
+    {"name": "education", "encoding": "feature_hashing"},
+    {"name": "default", "encoding": "feature_hashing"},
+    {"name": "housing", "encoding": "feature_hashing"},
+    {"name": "loan", "encoding": "feature_hashing"},
+    {"name": "contact", "encoding": "feature_hashing"},
+    {"name": "month", "encoding": "feature_hashing"},
+    {"name": "poutcome", "encoding": "feature_hashing"}
+  ],
+  "excluded_features": [
+    {"name": "duration", "reason": "leakage_prone_post_contact_field"}
+  ]
+}

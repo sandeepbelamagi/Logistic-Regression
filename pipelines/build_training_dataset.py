@@ -16,11 +16,11 @@ from probabilistic_decisioning.dataset_builder import DatasetBuilderConfig, buil
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build Phase 2 raw and training artifacts.")
-    parser.add_argument("--input", required=True, help="Path to the local Criteo train.txt file.")
+    parser.add_argument("--input", required=True, help="Path to a local Bank Marketing CSV file.")
     parser.add_argument("--output-dir", required=True, help="Directory for generated artifacts.")
     parser.add_argument("--hash-dimension", type=int, default=1_048_576)
-    parser.add_argument("--feature-set-version", default="criteo_ctr_v1")
-    parser.add_argument("--task-context", default="ctr")
+    parser.add_argument("--feature-set-version", default="bank_marketing_v1")
+    parser.add_argument("--task-context", default="bank_marketing")
     parser.add_argument("--split-strategy", choices=("hash", "contiguous"), default="hash")
     parser.add_argument("--train-ratio", type=float, default=0.8)
     parser.add_argument("--validation-ratio", type=float, default=0.1)
@@ -29,7 +29,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--start-timestamp", default="2026-01-01T00:00:00+00:00")
     parser.add_argument("--seconds-per-row", type=int, default=1)
     parser.add_argument("--max-rows", type=int)
-    parser.add_argument("--impression-source", default="criteo_train_txt")
+    parser.add_argument("--source-name", default="bank_full_csv")
     parser.add_argument("--attribution-window-hours", type=int, default=24)
     return parser.parse_args()
 
@@ -50,7 +50,7 @@ def main() -> int:
         start_timestamp=args.start_timestamp,
         seconds_per_row=args.seconds_per_row,
         max_rows=args.max_rows,
-        impression_source=args.impression_source,
+        source_name=args.source_name,
         attribution_window_hours=args.attribution_window_hours,
     )
     summary_path = build_dataset(config)

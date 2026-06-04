@@ -3,7 +3,7 @@
 __all__ = [
     "constants",
     "contracts",
-    "criteo",
+    "bank_marketing",
     "dataset_builder",
     "features",
 ]

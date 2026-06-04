@@ -13,11 +13,11 @@ This separation is mandatory because a model can rank well but calibrate poorly,
 
 ## North-Star KPIs
 
-### CTR Context
+### Bank Marketing Context
 
-- expected value proxy from `bid * calibrated_ctr`
-- calibrated CTR error by bucket
-- revenue proxy uplift versus baseline policy
+- expected contact value proxy from `calibrated_subscription_probability`
+- calibrated subscription error by bucket
+- campaign lift versus baseline policy
 
 ### Fraud Context
 

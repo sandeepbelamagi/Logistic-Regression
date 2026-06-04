@@ -12,9 +12,26 @@ WORKSPACE_TEMP_ROOT = Path(__file__).resolve().parents[1] / ".tmp_tests"
 
 
 def _sample_row(label: str, seed: int) -> str:
-    dense_values = [str(seed + index) for index in range(1, 14)]
-    categorical_values = [f"cat{seed}_{index}" for index in range(1, 27)]
-    return "\t".join([label, *dense_values, *categorical_values])
+    values = [
+        str(25 + seed),
+        "admin." if seed % 2 == 0 else "technician",
+        "married" if seed % 3 == 0 else "single",
+        "secondary",
+        "no",
+        str(1000 + seed * 10),
+        "yes" if seed % 2 == 0 else "no",
+        "no",
+        "cellular",
+        str(10 + seed),
+        "oct",
+        str(60 + seed),
+        str(1 + seed % 3),
+        "-1" if seed % 2 == 0 else "42",
+        str(seed % 4),
+        "unknown",
+        label,
+    ]
+    return ";".join(values)
 
 
 class DatasetBuilderTest(unittest.TestCase):
@@ -23,15 +40,15 @@ class DatasetBuilderTest(unittest.TestCase):
 
     def test_build_dataset_emits_expected_artifacts(self) -> None:
         tmp_path = WORKSPACE_TEMP_ROOT / "test_build_dataset_emits_expected_artifacts"
-        self._reset_dir(tmp_path)
-        input_path = tmp_path / "train.txt"
+        tmp_path.mkdir(parents=True, exist_ok=True)
+        input_path = tmp_path / "bank-full.csv"
         output_path = tmp_path / "artifacts"
         input_path.write_text(
             "\n".join(
                 [
-                    _sample_row("1", 10),
-                    _sample_row("0", 20),
-                    _sample_row("1", 30),
+                    _sample_row("yes", 1),
+                    _sample_row("no", 2),
+                    _sample_row("yes", 3),
                 ]
             ),
             encoding="utf-8",
@@ -50,10 +67,10 @@ class DatasetBuilderTest(unittest.TestCase):
         )
 
         self.assertTrue(summary_path.exists())
-        raw_events = (output_path / "raw" / "raw_impression_events.jsonl").read_text(
+        raw_events = (output_path / "raw" / "raw_contact_events.jsonl").read_text(
             encoding="utf-8"
         ).strip().splitlines()
-        raw_labels = (output_path / "raw" / "raw_click_labels.jsonl").read_text(
+        raw_labels = (output_path / "raw" / "raw_subscription_labels.jsonl").read_text(
             encoding="utf-8"
         ).strip().splitlines()
         train_rows = (output_path / "training" / "train.jsonl").read_text(
@@ -76,15 +93,15 @@ class DatasetBuilderTest(unittest.TestCase):
         self.assertAlmostEqual(summary["positive_rate"], 2 / 3)
 
         example_training_row = json.loads(train_rows[0])
-        self.assertEqual(example_training_row["task_context"], "ctr")
-        self.assertEqual(len(example_training_row["dense_features"]), 13)
-        self.assertEqual(len(example_training_row["sparse_feature_ids"]), 26)
+        self.assertEqual(example_training_row["task_context"], "bank_marketing")
+        self.assertEqual(len(example_training_row["dense_features"]), 7)
+        self.assertEqual(len(example_training_row["sparse_feature_ids"]), 9)
 
     def test_ratio_validation_rejects_invalid_config(self) -> None:
         tmp_path = WORKSPACE_TEMP_ROOT / "test_ratio_validation_rejects_invalid_config"
-        self._reset_dir(tmp_path)
-        input_path = tmp_path / "train.txt"
-        input_path.write_text(_sample_row("1", 10), encoding="utf-8")
+        tmp_path.mkdir(parents=True, exist_ok=True)
+        input_path = tmp_path / "bank-full.csv"
+        input_path.write_text(_sample_row("yes", 10), encoding="utf-8")
 
         with self.assertRaises(ValueError):
             build_dataset(
@@ -96,6 +113,3 @@ class DatasetBuilderTest(unittest.TestCase):
                     test_ratio=0.2,
                 )
             )
-
-    def _reset_dir(self, path: Path) -> None:
-        path.mkdir(parents=True, exist_ok=True)

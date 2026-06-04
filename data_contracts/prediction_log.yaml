@@ -28,7 +28,7 @@ fields:
   - name: event_id
     type: string
     required: false
-    description: Upstream event identifier when tied to a logged impression.
+    description: Upstream event identifier when tied to a logged contact.
   - name: model_version
     type: string
     required: true
@@ -60,7 +60,7 @@ fields:
   - name: task_context
     type: string
     required: true
-    description: One of ctr, fraud_policy, or loan_policy.
+    description: One of bank_marketing, fraud_policy, or loan_policy.
 quality_rules:
   - calibrated_score must be between 0 and 1
   - latency_ms must be greater than or equal to 0

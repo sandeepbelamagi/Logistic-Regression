@@ -28,11 +28,11 @@ fields:
   - name: task_context
     type: string
     required: true
-    description: One of ctr, fraud_policy, or loan_policy.
+    description: One of bank_marketing, fraud_policy, or loan_policy.
   - name: action
     type: string
     required: true
-    description: Policy action such as approve, review, block, decline, or rank.
+    description: Policy action such as suppress, nurture, prioritize_contact, approve, review, block, decline, or rank.
   - name: action_reason
     type: string
     required: false
@@ -58,5 +58,5 @@ fields:
     required: false
     description: Delay between decision time and mature downstream outcome.
 quality_rules:
-  - action must be one of approve, review, block, decline, rank
+  - action must be one of suppress, nurture, prioritize_contact, approve, review, block, decline, rank
   - manual_review_required must be present

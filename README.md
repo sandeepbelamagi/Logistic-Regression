@@ -2,10 +2,10 @@
 
 Phase 1 scaffolds a FAANG-level project around Logistic Regression as a calibrated probability engine for:
 
-- CTR prediction and auction-safe ranking
+- Bank Marketing term-deposit propensity prediction
 - fraud-style thresholding and action routing
 - loan-style delayed feedback, fairness, and governance
-- hybrid ranking with linear retrieval and deep reranking
+- hybrid decisioning with linear retrieval and deep reranking
 
 ## Phase Status
 
@@ -19,7 +19,7 @@ Phase 1 scaffolds a FAANG-level project around Logistic Regression as a calibrat
 
 ## Primary Dataset
 
-- Primary: Criteo CTR `train.txt`
+- Primary: UCI Bank Marketing `bank-full.csv`
 - Secondary simulators: fraud-cost policy and delayed-default policy built on top of calibrated probabilities
 
 ## Key Artifacts
@@ -33,11 +33,11 @@ Phase 1 scaffolds a FAANG-level project around Logistic Regression as a calibrat
 
 ## Phase 2 Implementation
 
-Phase 2 adds offline data ingestion and feature engineering for the Criteo CTR dataset:
+Phase 2 adds offline data ingestion and feature engineering for the Bank Marketing dataset:
 
-- streaming parser for `train.txt`
-- raw impression and click-label artifact generation
-- dense feature transformation using `log1p`
+- streaming parser for semicolon-delimited CSV
+- raw contact-event and subscription-label artifact generation
+- numeric feature transformation using signed log and `log1p`
 - sparse categorical feature hashing
 - train, validation, and test dataset materialization
 - metadata summary generation
@@ -45,7 +45,7 @@ Phase 2 adds offline data ingestion and feature engineering for the Criteo CTR d
 ### Build Command
 
 ```bash
-python pipelines/build_training_dataset.py --input path/to/train.txt --output-dir artifacts/criteo
+python pipelines/build_training_dataset.py --input samples/bank_full_smoke.csv --output-dir artifacts/bank_marketing_smoke
 ```
 
 ## Planned Repository Layout
@@ -59,3 +59,4 @@ python pipelines/build_training_dataset.py --input path/to/train.txt --output-di
 - `services/` runtime APIs and monitoring services
 - `experiments/` ablation studies and analysis notebooks
 - `tests/` unit, integration, and ML validation suites
+- `samples/bank_full_smoke.csv` runnable smoke fixture

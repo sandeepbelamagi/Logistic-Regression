@@ -1,7 +1,13 @@
 policies:
-  ctr:
+  bank_marketing:
     action_mode: rank
-    score_formula: bid_times_calibrated_probability
+    score_formula: calibrated_subscription_probability
+    low_propensity_threshold: 0.08
+    high_propensity_threshold: 0.22
+    actions:
+      below_low: suppress
+      between: nurture
+      above_high: prioritize_contact
   fraud_policy:
     manual_review_threshold: 0.15
     auto_block_threshold: 0.65

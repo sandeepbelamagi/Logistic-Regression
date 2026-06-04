@@ -13,4 +13,4 @@ Planned pipeline modules:
 
 Phase 2 delivers the first executable pipeline:
 
-- `build_training_dataset.py` builds raw and training artifacts from local Criteo `train.txt`
+- `build_training_dataset.py` builds raw and training artifacts from local Bank Marketing CSV files

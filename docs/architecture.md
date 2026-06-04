@@ -11,7 +11,7 @@ The platform must cover:
 - calibration drift and recalibration
 - delayed labels and feedback loops
 - large-scale sparse feature training and low-latency serving
-- hybrid ranking with linear retrieval and deep reranking
+- hybrid decisioning with linear retrieval and deep reranking
 
 ## Architecture Principles
 
@@ -35,7 +35,7 @@ The platform must cover:
 
 The same probability platform supports three decision contexts:
 
-- **CTR ranking**: maximize expected click value with strict calibration
+- **Bank Marketing propensity ranking**: maximize expected subscription value with strict calibration
 - **fraud-style routing**: approve, review, or block based on expected cost
 - **loan-style risk policy**: optimize long-term value under delayed outcomes and fairness constraints
 
@@ -43,7 +43,7 @@ The same probability platform supports three decision contexts:
 
 ### 1. Data Plane
 
-- event ingestion for impressions, clicks, contextual metadata, and downstream outcomes
+- event ingestion for contact records, subscription labels, contextual metadata, and downstream outcomes
 - immutable bronze layer for raw events
 - cleaned silver layer for validated events
 - gold training tables with point-in-time features and label windows
@@ -73,7 +73,7 @@ The same probability platform supports three decision contexts:
 
 - business threshold service that consumes calibrated probability
 - routing policies for approve, review, block
-- context-specific cost matrices for CTR, fraud, and loan workflows
+- context-specific cost matrices for bank marketing, fraud, and loan workflows
 - human-in-the-loop escalation support
 
 ### 6. Serving Plane
@@ -111,7 +111,7 @@ Client/Event Source
 
 ### Dataset Strategy
 
-- primary training corpus: Criteo CTR `train.txt`
+- primary training corpus: UCI Bank Marketing `bank-full.csv`
 - deterministic train, validation, and holdout splits
 - time-aware validation windows to simulate production drift
 - delayed-label simulation for loan-style and conversion-style use cases

@@ -14,7 +14,8 @@ monitoring:
     - prediction_error_rate
     - availability
   business_metrics:
-    - revenue_proxy
+    - campaign_lift
+    - contact_yield
     - fraud_capture_rate
     - false_positive_cost
     - risk_adjusted_profit
