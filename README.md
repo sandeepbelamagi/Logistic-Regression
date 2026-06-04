@@ -28,6 +28,9 @@ Phase 1 scaffolds a FAANG-level project around Logistic Regression as a calibrat
 - `docs/problem_statement.md`
 - `docs/kpi_framework.md`
 - `docs/interview_coverage_matrix.md`
+- `docs/phase1_implementation_notes.md`
+- `docs/phase2_implementation_notes.md`
+- `docs/phase3_implementation_notes.md`
 - `data_contracts/`
 - `configs/`
 
