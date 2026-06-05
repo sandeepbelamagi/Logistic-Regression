@@ -28,3 +28,5 @@ alerts:
   psi_critical: 0.2
   prediction_p95_latency_ms_critical: 10
   manual_review_utilization_critical: 0.85
+  subgroup_calibration_gap_critical: 0.05
+  approval_rate_gap_critical: 0.05

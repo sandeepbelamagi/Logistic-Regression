@@ -68,6 +68,7 @@ Phase 5 writes two JSONL logs when log paths are supplied:
 - `prediction_log.jsonl` aligned with `data_contracts/prediction_log.yaml`
 - `decision_log.jsonl` aligned with the decision-outcome contract used in Phase 4
 
+The prediction log includes the engineered feature snapshot used at scoring time so Phase 6 can measure drift against the training distribution.
 These logs support replay, offline analysis, and later monitoring work.
 
 ## File Layout

@@ -33,6 +33,7 @@ Phase 1 scaffolds a FAANG-level project around Logistic Regression as a calibrat
 - `docs/phase3_implementation_notes.md`
 - `docs/phase4_implementation_notes.md`
 - `docs/phase5_implementation_notes.md`
+- `docs/phase6_implementation_notes.md`
 - `data_contracts/`
 - `configs/`
 
@@ -109,6 +110,39 @@ curl -X POST http://127.0.0.1:8000/v1/features/lookup -H "Content-Type: applicat
 - `python -B -m unittest tests.test_serving -v`
 - the HTTP server loads the Phase 3 and Phase 4 artifacts
 - prediction logs match `data_contracts/prediction_log.yaml`
+
+## Phase 6 Implementation
+
+Phase 6 adds monitoring, governance, and rollout controls on top of the Phase 2 to Phase 5 artifacts:
+
+- model, data, system, and policy aggregation
+- calibration drift and feature drift analysis
+- subgroup calibration and approval-gap checks
+- audit-log coverage and rollout readiness
+
+### Sample Run
+
+```bash
+python scripts/phase6_runner.py --mode sample
+```
+
+### Full Run
+
+```bash
+python scripts/phase6_runner.py --mode full
+```
+
+### Explicit CLI
+
+```bash
+python pipelines/run_monitoring.py --model-path artifacts/bank_marketing_lr_cv/model.json --training-data-dir artifacts/bank_marketing_smoke_cv --prediction-log artifacts/bank_marketing_phase5_logs_sample/prediction_log.jsonl --decision-log artifacts/bank_marketing_phase5_logs_sample/decision_log.jsonl --phase3-metrics artifacts/bank_marketing_lr_cv/metrics.json --phase4-report artifacts/bank_marketing_phase4_cv/policies/calibration_and_policy_report.json --output-dir artifacts/bank_marketing_phase6_sample
+```
+
+### Validation
+
+- `python -B -m unittest tests.test_monitoring -v`
+- the monitoring report contains system, model, drift, governance, and alert summaries
+- `scripts/phase6_runner.py` works for both sample and full artifact sets
 
 ## Planned Repository Layout
 

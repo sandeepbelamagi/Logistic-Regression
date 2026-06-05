@@ -18,3 +18,7 @@ Phase 2 delivers the first executable pipeline:
 Phase 5 adds the first executable serving pipeline:
 
 - `serve_prediction_api.py` starts the local feature, prediction, and decision HTTP server
+
+Phase 6 adds the monitoring pipeline:
+
+- `run_monitoring.py` aggregates model, drift, calibration, and governance metrics

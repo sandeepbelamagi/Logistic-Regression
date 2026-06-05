@@ -176,6 +176,8 @@ class ServingRuntimeTest(unittest.TestCase):
         self.assertEqual(prediction_payload["prediction_id"], response.prediction_id)
         self.assertEqual(prediction_payload["request_id"], request.request_id)
         self.assertGreaterEqual(prediction_payload["latency_ms"], 0.0)
+        self.assertIn("feature_vector", prediction_payload)
+        self.assertIn("dense_features", prediction_payload["feature_vector"])
         self.assertEqual(decision_payload["decision_id"], f"decision_{request.event_id}")
 
     def test_runtime_routes_without_raw_features(self) -> None:

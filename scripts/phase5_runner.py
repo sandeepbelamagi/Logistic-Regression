@@ -98,6 +98,8 @@ def _sample_predict_payload() -> dict[str, Any]:
         "event_id": "evt_1",
         "event_ts": "2026-01-01T00:00:00Z",
         "task_context": "bank_marketing",
+        "realized_label": 1,
+        "realized_value": 1.0,
         "features": {
             "age": "42",
             "job": "admin.",
@@ -126,6 +128,8 @@ def _sample_decision_payload() -> dict[str, Any]:
         "event_ts": "2026-01-01T00:00:00Z",
         "task_context": "fraud_policy",
         "calibrated_probability": 0.8,
+        "realized_label": 0,
+        "realized_value": 0.0,
     }
 
 

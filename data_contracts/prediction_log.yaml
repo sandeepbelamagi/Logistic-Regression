@@ -41,6 +41,10 @@ fields:
     type: string
     required: true
     description: Online feature schema version.
+  - name: feature_vector
+    type: object
+    required: true
+    description: Engineered feature snapshot captured at prediction time for replay and drift monitoring.
   - name: raw_score
     type: float
     required: true

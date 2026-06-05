@@ -124,6 +124,7 @@ class PredictionLogRecord:
     model_version: str
     calibration_version: str | None
     feature_set_version: str
+    feature_vector: dict[str, object]
     raw_score: float
     calibrated_score: float
     decision_policy_version: str | None
@@ -140,6 +141,7 @@ class PredictionLogRecord:
             "model_version": self.model_version,
             "calibration_version": self.calibration_version,
             "feature_set_version": self.feature_set_version,
+            "feature_vector": self.feature_vector,
             "raw_score": self.raw_score,
             "calibrated_score": self.calibrated_score,
             "decision_policy_version": self.decision_policy_version,
@@ -331,6 +333,7 @@ class OnlineServingRuntime:
             model_version=self.bundle.model_version,
             calibration_version=self.bundle.calibration_artifact.calibration_version,
             feature_set_version=self.bundle.feature_set_version,
+            feature_vector=feature_vector.to_dict(),
             raw_score=raw_score,
             calibrated_score=calibrated_probability,
             decision_policy_version=decision.decision_policy_version,

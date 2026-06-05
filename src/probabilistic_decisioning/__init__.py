@@ -11,4 +11,5 @@ __all__ = [
     "calibration",
     "decision_policy",
     "serving",
+    "monitoring",
 ]
