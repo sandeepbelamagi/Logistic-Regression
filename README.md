@@ -32,6 +32,7 @@ Phase 1 scaffolds a FAANG-level project around Logistic Regression as a calibrat
 - `docs/phase2_implementation_notes.md`
 - `docs/phase3_implementation_notes.md`
 - `docs/phase4_implementation_notes.md`
+- `docs/phase5_implementation_notes.md`
 - `data_contracts/`
 - `configs/`
 
@@ -80,6 +81,34 @@ python pipelines/build_training_dataset.py --input samples/bank_full_smoke.csv -
 python pipelines/train_logistic_regression.py --data-dir artifacts/bank_marketing_smoke_cv --output-dir artifacts/bank_marketing_lr_cv
 python pipelines/calibrate_and_route.py --data-dir artifacts/bank_marketing_smoke_cv --model-path artifacts/bank_marketing_lr_cv/model.json --output-dir artifacts/bank_marketing_phase4_cv
 ```
+
+## Phase 5 Implementation
+
+Phase 5 adds a local serving runtime for feature lookup, prediction, and decision routing:
+
+- `/health` readiness check
+- `/v1/features/lookup` engineered feature preview
+- `/v1/predict` raw score, calibrated score, and routed decision
+- `/v1/decision` decision-only routing from calibrated probabilities
+- prediction and decision JSONL logs for replay and audit
+
+### Serve Locally
+
+```bash
+python pipelines/serve_prediction_api.py --model-path artifacts/bank_marketing_lr_cv/model.json --calibration-path artifacts/bank_marketing_phase4_cv/calibration/calibration.json --log-dir artifacts/bank_marketing_phase5_logs
+```
+
+### Example Call
+
+```bash
+curl -X POST http://127.0.0.1:8000/v1/features/lookup -H "Content-Type: application/json" -d "{\"request_id\":\"req_1\",\"event_id\":\"evt_1\",\"event_ts\":\"2026-01-01T00:00:00Z\",\"task_context\":\"bank_marketing\",\"features\":{\"age\":\"42\",\"job\":\"admin.\",\"marital\":\"married\",\"education\":\"secondary\",\"default\":\"no\",\"balance\":\"1200\",\"housing\":\"yes\",\"loan\":\"no\",\"contact\":\"cellular\",\"day\":\"15\",\"month\":\"oct\",\"duration\":\"80\",\"campaign\":\"2\",\"pdays\":\"-1\",\"previous\":\"0\",\"poutcome\":\"unknown\"}}"
+```
+
+### Validation
+
+- `python -B -m unittest tests.test_serving -v`
+- the HTTP server loads the Phase 3 and Phase 4 artifacts
+- prediction logs match `data_contracts/prediction_log.yaml`
 
 ## Planned Repository Layout
 

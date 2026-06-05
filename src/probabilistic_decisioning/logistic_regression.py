@@ -93,19 +93,45 @@ class LogisticRegressionModel:
     def score(self, example: TrainingExample) -> float:
         """Return the raw logit for one example."""
 
-        logit = self.bias
-        for weight, feature_value in zip(self.dense_weights, example.dense_features, strict=True):
-            logit += weight * feature_value
-        for feature_id, feature_value in _compress_sparse_pairs(
-            example.sparse_feature_ids, example.sparse_feature_values
-        ):
-            logit += self.sparse_weights.get(feature_id, 0.0) * feature_value
-        return logit
+        return self.score_features(
+            example.dense_features,
+            example.sparse_feature_ids,
+            example.sparse_feature_values,
+        )
 
     def predict_proba(self, example: TrainingExample) -> float:
         """Return sigmoid-transformed probability."""
 
-        return _sigmoid(self.score(example))
+        return self.predict_proba_features(
+            example.dense_features,
+            example.sparse_feature_ids,
+            example.sparse_feature_values,
+        )
+
+    def score_features(
+        self,
+        dense_features: Sequence[float],
+        sparse_feature_ids: Sequence[int],
+        sparse_feature_values: Sequence[float],
+    ) -> float:
+        """Return the raw logit for an arbitrary engineered feature vector."""
+
+        logit = self.bias
+        for weight, feature_value in zip(self.dense_weights, dense_features, strict=True):
+            logit += weight * feature_value
+        for feature_id, feature_value in _compress_sparse_pairs(sparse_feature_ids, sparse_feature_values):
+            logit += self.sparse_weights.get(feature_id, 0.0) * feature_value
+        return logit
+
+    def predict_proba_features(
+        self,
+        dense_features: Sequence[float],
+        sparse_feature_ids: Sequence[int],
+        sparse_feature_values: Sequence[float],
+    ) -> float:
+        """Return the sigmoid probability for arbitrary engineered features."""
+
+        return _sigmoid(self.score_features(dense_features, sparse_feature_ids, sparse_feature_values))
 
     def to_dict(self) -> dict[str, object]:
         """Serialize the model to a JSON-compatible dictionary."""

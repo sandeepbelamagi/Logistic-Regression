@@ -14,3 +14,7 @@ Planned pipeline modules:
 Phase 2 delivers the first executable pipeline:
 
 - `build_training_dataset.py` builds raw and training artifacts from local Bank Marketing CSV files
+
+Phase 5 adds the first executable serving pipeline:
+
+- `serve_prediction_api.py` starts the local feature, prediction, and decision HTTP server
