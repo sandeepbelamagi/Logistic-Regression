@@ -21,21 +21,33 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--monitoring-config", default=str(ROOT / "configs" / "monitoring.yaml"))
     parser.add_argument("--output-dir")
     parser.add_argument("--group-key", default="task_context")
+    parser.add_argument("--training-data-dir")
+    parser.add_argument("--model-path")
+    parser.add_argument("--phase3-metrics")
+    parser.add_argument("--phase4-report")
+    parser.add_argument("--prediction-log")
+    parser.add_argument("--decision-log")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     bundle = _resolve_bundle(args.mode)
+    training_data_dir = Path(args.training_data_dir) if args.training_data_dir else bundle["training_data_dir"]
+    model_path = Path(args.model_path) if args.model_path else bundle["model_path"]
+    phase3_metrics_path = Path(args.phase3_metrics) if args.phase3_metrics else bundle["phase3_metrics_path"]
+    phase4_report_path = Path(args.phase4_report) if args.phase4_report else bundle["phase4_report_path"]
+    prediction_log_path = Path(args.prediction_log) if args.prediction_log else bundle["prediction_log_path"]
+    decision_log_path = Path(args.decision_log) if args.decision_log else bundle["decision_log_path"]
     output_dir = Path(args.output_dir) if args.output_dir else bundle["output_dir"]
     result = run_monitoring(
         MonitoringInputs(
-            model_path=bundle["model_path"],
-            training_data_dir=bundle["training_data_dir"],
-            prediction_log_path=bundle["prediction_log_path"],
-            decision_log_path=bundle["decision_log_path"],
-            phase3_metrics_path=bundle["phase3_metrics_path"],
-            phase4_report_path=bundle["phase4_report_path"],
+            model_path=model_path,
+            training_data_dir=training_data_dir,
+            prediction_log_path=prediction_log_path,
+            decision_log_path=decision_log_path,
+            phase3_metrics_path=phase3_metrics_path,
+            phase4_report_path=phase4_report_path,
             output_dir=output_dir,
             monitoring_config_path=Path(args.monitoring_config),
             group_key=args.group_key,
