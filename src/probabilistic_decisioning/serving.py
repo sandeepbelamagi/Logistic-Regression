@@ -11,6 +11,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import Lock
 from time import perf_counter
+from socket import gaierror
 from typing import Any
 
 from probabilistic_decisioning.bank_marketing import BankMarketingRecord
@@ -434,7 +435,12 @@ def create_server(
 ) -> JsonServingHTTPServer:
     """Create a threaded HTTP server for local development."""
 
-    return JsonServingHTTPServer((host, port), runtime)
+    try:
+        return JsonServingHTTPServer((host, port), runtime)
+    except gaierror:
+        if host in {"", "0.0.0.0"}:
+            raise
+        return JsonServingHTTPServer(("", port), runtime)
 
 
 def _make_handler(runtime: OnlineServingRuntime):
