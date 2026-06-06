@@ -178,6 +178,31 @@ python pipelines/run_hybrid_ranking.py --data-dir artifacts/bank_marketing_smoke
 - ranked shortlist previews are written under `rankings/`
 - rollout readiness is based on validation/test reranker lift versus the stage-1 baseline
 
+## One-File Orchestrator
+
+`main.py` runs Phases 2 through 7 in order and then launches the Streamlit dashboard.
+
+### Full Run
+
+```bash
+python main.py --mode full
+```
+
+### Sample Run
+
+```bash
+python main.py --mode sample
+```
+
+### Dashboard Only Skip
+
+```bash
+python main.py --mode full --no-dashboard
+```
+
+The orchestrator uses the same artifact layout as the phase-specific CLIs, so the dashboard opens the outputs from
+the same run.
+
 ## Visualization Dashboard
 
 The repository includes a Streamlit dashboard for inspecting the outputs of phases 2–7 and visualizing the
