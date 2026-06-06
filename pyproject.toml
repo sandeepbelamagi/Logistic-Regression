@@ -8,5 +8,8 @@ version = "0.1.0"
 description = "Phase-wise FAANG-level Logistic Regression platform scaffold."
 requires-python = ">=3.12"
 
+[project.optional-dependencies]
+ui = ["streamlit>=1.32"]
+
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -178,6 +178,35 @@ python pipelines/run_hybrid_ranking.py --data-dir artifacts/bank_marketing_smoke
 - ranked shortlist previews are written under `rankings/`
 - rollout readiness is based on validation/test reranker lift versus the stage-1 baseline
 
+## Visualization Dashboard
+
+The repository includes a Streamlit dashboard for inspecting the outputs of phases 2–7 and visualizing the
+data-preprocessing pipeline.
+
+It covers:
+
+- raw Bank Marketing profiling and preprocessing comparisons
+- phase-by-phase artifact coverage and missing-file detection
+- training metrics, coefficient views, and reliability curves
+- calibration, routing, and decision-log summaries
+- serving latency, monitoring alerts, and rollout readiness
+- hybrid ranking summaries and shortlist previews
+
+### Install the UI extra
+
+```bash
+pip install -e .[ui]
+```
+
+### Run the dashboard
+
+```bash
+streamlit run ui/streamlit_app.py
+```
+
+The sidebar lets you switch between the sample and full artifact presets and override the artifact root or raw CSV
+path when needed.
+
 ## Planned Repository Layout
 
 - `docs/` system design and requirements
@@ -188,5 +217,6 @@ python pipelines/run_hybrid_ranking.py --data-dir artifacts/bank_marketing_smoke
 - `models/` scoring and calibration modules
 - `services/` runtime APIs and monitoring services
 - `experiments/` ablation studies and analysis notebooks
+- `ui/` Streamlit dashboard and artifact explorer
 - `tests/` unit, integration, and ML validation suites
 - `samples/bank_full_smoke.csv` runnable smoke fixture
