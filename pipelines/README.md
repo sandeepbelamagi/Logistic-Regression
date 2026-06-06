@@ -22,3 +22,7 @@ Phase 5 adds the first executable serving pipeline:
 Phase 6 adds the monitoring pipeline:
 
 - `run_monitoring.py` aggregates model, drift, calibration, and governance metrics
+
+Phase 7 adds the hybrid ranking pipeline:
+
+- `run_hybrid_ranking.py` trains the reranker and produces exploration-aware shortlist reports

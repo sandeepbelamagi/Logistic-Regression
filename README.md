@@ -34,6 +34,7 @@ Phase 1 scaffolds a FAANG-level project around Logistic Regression as a calibrat
 - `docs/phase4_implementation_notes.md`
 - `docs/phase5_implementation_notes.md`
 - `docs/phase6_implementation_notes.md`
+- `docs/phase7_implementation_notes.md`
 - `data_contracts/`
 - `configs/`
 
@@ -143,6 +144,39 @@ python pipelines/run_monitoring.py --model-path artifacts/bank_marketing_lr_cv/m
 - `python -B -m unittest tests.test_monitoring -v`
 - the monitoring report contains system, model, drift, governance, and alert summaries
 - `scripts/phase6_runner.py` works for both sample and full artifact sets
+
+## Phase 7 Implementation
+
+Phase 7 adds the hybrid reranking extension on top of the calibrated platform:
+
+- stage-1 linear retrieval from the calibrated Logistic Regression baseline
+- stage-2 reranking with interaction features
+- stage-3 uncertainty-driven exploration for the final shortlist
+
+### Sample Run
+
+```bash
+python scripts/phase7_runner.py --mode sample
+```
+
+### Full Run
+
+```bash
+python scripts/phase7_runner.py --mode full
+```
+
+### Explicit CLI
+
+```bash
+python pipelines/run_hybrid_ranking.py --data-dir artifacts/bank_marketing_smoke_cv --model-path artifacts/bank_marketing_lr_cv/model.json --calibration-path artifacts/bank_marketing_phase4_cv/calibration/calibration.json --output-dir artifacts/bank_marketing_phase7_sample
+```
+
+### Validation
+
+- `python -B -m unittest tests.test_hybrid_ranking -v`
+- reranker artifacts are written under `reranker/`
+- ranked shortlist previews are written under `rankings/`
+- rollout readiness is based on validation/test reranker lift versus the stage-1 baseline
 
 ## Planned Repository Layout
 

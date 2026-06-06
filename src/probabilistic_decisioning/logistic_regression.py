@@ -271,6 +271,7 @@ def train_logistic_regression(
     feature_set_version: str = DEFAULT_FEATURE_SET_VERSION,
     task_context: str = "bank_marketing",
     hash_dimension: int = DEFAULT_HASH_DIMENSION,
+    dense_feature_names: Sequence[str] | None = None,
 ) -> TrainingRunResult:
     """Fit a sparse Logistic Regression model and evaluate it on each split."""
 
@@ -307,14 +308,21 @@ def train_logistic_regression(
 
     class_weights = _compute_class_weights(train_examples) if config.class_weighting else {0: 1.0, 1: 1.0}
     working_train_examples = _maybe_oversample(train_examples, config)
-    dense_feature_names = _resolve_dense_feature_names(dense_feature_count)
+    if dense_feature_names is None:
+        resolved_dense_feature_names = _resolve_dense_feature_names(dense_feature_count)
+    else:
+        resolved_dense_feature_names = tuple(str(value) for value in dense_feature_names)
+        if len(resolved_dense_feature_names) != dense_feature_count:
+            raise ValueError(
+                "dense_feature_names length must match the dense feature count in the training examples."
+            )
     optimizer_state = _create_optimizer_state(config.optimizer, dense_feature_count)
 
     model = LogisticRegressionModel(
         bias=0.0,
         dense_weights=[0.0] * dense_feature_count,
         sparse_weights={},
-        dense_feature_names=dense_feature_names,
+        dense_feature_names=resolved_dense_feature_names,
         hash_dimension=hash_dimension,
         model_version=model_version,
         feature_set_version=feature_set_version,

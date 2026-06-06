@@ -10,6 +10,7 @@ __all__ = [
     "logistic_regression",
     "calibration",
     "decision_policy",
+    "hybrid_ranking",
     "serving",
     "monitoring",
 ]
